@@ -6,9 +6,6 @@ import { formatUsername } from "discourse/lib/utilities";
 
 function initializeDiscourseCustomUserTitle(api) {
   
-  // see app/assets/javascripts/discourse/lib/plugin-api
-  // for the functions available via the api object
-
   api.reopenWidget("poster-name", {
 
     html(attrs) {
@@ -78,8 +75,8 @@ function initializeDiscourseCustomUserTitle(api) {
 
       let title = attrs.user_title;
 
-      if (attrs.userCustomFields && attrs.userCustomFields.user_field_1) {    
-          title = attrs.userCustomFields.user_field_1;
+      if (attrs.userCustomFields && attrs.userCustomFields.user_field_4) {
+          title = attrs.userCustomFields.user_field_4;
       }
 
       if (title && title.length) {
