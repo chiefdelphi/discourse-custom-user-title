@@ -5,7 +5,15 @@ import { h } from "virtual-dom";
 import { formatUsername } from "discourse/lib/utilities";
 
 function initializeDiscourseCustomUserTitle(api) {
-  
+
+  api.reopenWidget("poster-name-title", {
+
+    html(attrs) {
+      return attrs.title;
+    }
+
+  });
+
   api.reopenWidget("poster-name", {
 
     html(attrs) {
