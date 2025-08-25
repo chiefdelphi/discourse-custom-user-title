@@ -5,12 +5,8 @@ export default {
   
   initialize() {
     withPluginApi("0.8.24", (api) => {
-      console.log('Custom user title plugin initialized');
-      
       // Method to process posts for custom titles
       function processCustomTitles() {
-        console.log('Custom user title: processing posts...');
-        
         // Try different selectors for different Discourse versions
         const postSelectors = [
           '.topic-post:not([data-custom-title-processed])',
@@ -24,8 +20,6 @@ export default {
           if (posts.length > 0) break;
         }
         
-        console.log(`Found ${posts.length} posts using selector`);
-        
         for (const post of posts) {
           const nameLink = post.querySelector('.names a') || post.querySelector('.post-info .username a') || post.querySelector('[data-user-card]');
           if (nameLink) {
@@ -33,12 +27,9 @@ export default {
             let postId = post.getAttribute('data-post-id') || 
                         post.getAttribute('id')?.replace('post_', '') ||
                         post.querySelector('[data-post-id]')?.getAttribute('data-post-id');
-                        
-            console.log('Processing post ID:', postId, 'element:', post.tagName, 'classes:', post.className);
             
             // Get username from the name link
             const username = nameLink.textContent.trim();
-            console.log('Processing username:', username);
             
             // Try multiple methods to access post data
             let postData = null;
@@ -49,10 +40,9 @@ export default {
                 const topicController = api.container.lookup('controller:topic');
                 if (topicController?.model?.postStream) {
                   postData = topicController.model.postStream.posts.find(p => p.id == postId);
-                  console.log('Found post data via controller (ID):', postData?.custom_user_title);
                 }
               } catch (e) {
-                console.log('Controller method failed:', e);
+                // Silent fail
               }
             }
             
@@ -62,10 +52,9 @@ export default {
                 const topicController = api.container.lookup('controller:topic');
                 if (topicController?.model?.postStream) {
                   postData = topicController.model.postStream.posts.find(p => p.username === username);
-                  console.log('Found post data via controller (username):', postData?.custom_user_title);
                 }
               } catch (e) {
-                console.log('Username lookup method failed:', e);
+                // Silent fail
               }
             }
             
@@ -76,27 +65,14 @@ export default {
                 const currentRoute = appController?.currentRoute;
                 if (currentRoute?.modelFor && currentRoute.modelFor('topic')?.postStream) {
                   postData = currentRoute.modelFor('topic').postStream.posts.find(p => p.id == postId);
-                  console.log('Found post data via route:', postData?.custom_user_title);
                 }
               } catch (e) {
-                console.log('Route method failed:', e);
+                // Silent fail
               }
-            }
-            
-            // Debug: Log all post data keys to see what's available
-            if (postData) {
-              console.log('Available post data keys:', Object.keys(postData));
-              console.log('Post data sample:', {
-                id: postData.id,
-                username: postData.username,
-                custom_user_title: postData.custom_user_title,
-                user_custom_fields: postData.user_custom_fields
-              });
             }
             
             // Add custom title if found
             if (postData && postData.custom_user_title && !nameLink.querySelector('.custom-user-title')) {
-              console.log('Adding custom title:', postData.custom_user_title);
               const titleSpan = document.createElement('span');
               titleSpan.className = 'custom-user-title';
               titleSpan.textContent = ` ${postData.custom_user_title}`;
