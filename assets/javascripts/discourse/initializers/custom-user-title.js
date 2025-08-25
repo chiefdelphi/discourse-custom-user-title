@@ -103,12 +103,47 @@ export default {
       // Process on page change
       api.onPageChange(processCustomTitles);
       
-      // Also process when posts are loaded/updated
+      // Process when posts are loaded/updated
       api.onAppEvent('post-stream:loaded', processCustomTitles);
       api.onAppEvent('post:updated', processCustomTitles);
       
+      // Process on scroll events for virtual scrolling
+      api.onAppEvent('post-stream:refresh', processCustomTitles);
+      api.onAppEvent('post-stream:posted', processCustomTitles);
+      
+      // Use MutationObserver to catch dynamically added posts
+      const observer = new MutationObserver((mutations) => {
+        let shouldProcess = false;
+        mutations.forEach((mutation) => {
+          if (mutation.addedNodes.length > 0) {
+            mutation.addedNodes.forEach((node) => {
+              if (node.nodeType === Node.ELEMENT_NODE && 
+                  (node.matches && (node.matches('article') || node.matches('.topic-post') || node.matches('.post')) ||
+                   node.querySelector && (node.querySelector('article') || node.querySelector('.topic-post') || node.querySelector('.post')))) {
+                shouldProcess = true;
+              }
+            });
+          }
+        });
+        if (shouldProcess) {
+          setTimeout(processCustomTitles, 100);
+        }
+      });
+      
+      // Observe the main content area for changes
+      const mainContent = document.querySelector('#main-outlet') || document.querySelector('.posts-wrapper') || document.body;
+      if (mainContent) {
+        observer.observe(mainContent, {
+          childList: true,
+          subtree: true
+        });
+      }
+      
       // Initial processing after a delay
       setTimeout(processCustomTitles, 1000);
+      
+      // Regular interval processing as fallback
+      setInterval(processCustomTitles, 2000);
     });
   }
 };
