@@ -1,0 +1,25 @@
+.custom-user-title {
+  font-size: 0.9em;
+  color: #007acc !important;
+  margin-left: 0.5em;
+  font-weight: bold !important;
+  display: inline-block !important;
+  background: rgba(0, 122, 204, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.custom-user-title-display {
+  font-size: 1em;
+  color: var(--primary-medium);
+  margin-left: 0.5em;
+  font-weight: normal;
+  display: inline-block;
+}
+
+.poster-name-title {
+  font-size: 0.8em;
+  color: var(--primary-medium);
+  margin-left: 0.5em;
+  font-weight: normal;
+}

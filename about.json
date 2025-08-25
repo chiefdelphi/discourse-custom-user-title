@@ -1,0 +1,9 @@
+{
+  "name": "Custom User Title",
+  "about_url": "https://github.com/bmartus/discourse-custom-user-title",
+  "license_url": "https://github.com/bmartus/discourse-custom-user-title/blob/master/LICENSE",
+  "authors": "bmartus",
+  "theme_version": "1.0.0",
+  "minimum_discourse_version": "3.2.0",
+  "component": true
+}

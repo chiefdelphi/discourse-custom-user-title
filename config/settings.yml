@@ -1,4 +1,0 @@
-plugins:
-  discourse_custom_user_title_enabled:
-    default: true
-    client: true
