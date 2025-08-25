@@ -4,6 +4,21 @@ export default {
   name: "custom-user-title",
   
   initialize() {
+    // Add custom CSS
+    const css = `
+      .custom-user-title {
+        font-size: 1em;
+        color: var(--primary-medium);
+        margin-left: 0.5em;
+        font-weight: normal !important;
+        display: inline-block;
+      }
+    `;
+    
+    const style = document.createElement('style');
+    style.textContent = css;
+    document.head.appendChild(style);
+    
     withPluginApi("0.8.24", (api) => {
       // Method to process posts for custom titles
       function processCustomTitles() {
