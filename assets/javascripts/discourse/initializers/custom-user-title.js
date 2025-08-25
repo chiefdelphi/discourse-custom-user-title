@@ -72,11 +72,12 @@ export default {
             }
             
             // Add custom title if found
-            if (postData && postData.custom_user_title && !nameLink.querySelector('.custom-user-title')) {
+            if (postData && postData.custom_user_title && !nameLink.parentElement.querySelector('.custom-user-title')) {
               const titleSpan = document.createElement('span');
               titleSpan.className = 'custom-user-title';
               titleSpan.textContent = ` ${postData.custom_user_title}`;
-              nameLink.appendChild(titleSpan);
+              // Insert after the username link instead of inside it
+              nameLink.parentElement.insertBefore(titleSpan, nameLink.nextSibling);
             }
           }
           
