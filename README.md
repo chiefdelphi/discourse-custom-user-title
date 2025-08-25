@@ -1,15 +1,32 @@
-# Custom User Title
-Give the user the ability to edit a custom user title.
+# Discourse Custom User Title Plugin
+
+A complete plugin that adds custom user titles from user field 4 to topic posts with zero AJAX requests.
 
 ## Installation
 
-Follow [Install a Plugin](https://meta.discourse.org/t/install-a-plugin/19157)
-how-to from the official Discourse Meta, using `git clone https://github.com/bmartus/discourse-custom-user-title.git`
-as the plugin command.
+1. Clone this repository to your Discourse plugins directory:
+   ```bash
+   cd /var/discourse
+   git clone https://github.com/yourusername/discourse-custom-user-title-unified.git plugins/discourse-custom-user-title
+   ```
 
-## Usage
+2. Rebuild your Discourse container:
+   ```bash
+   ./launcher rebuild app
+   ```
 
-## Feedback
+## Configuration
 
-If you have issues or suggestions for the plugin, please bring them up on
-[Discourse Meta](https://meta.discourse.org).
+1. In your Discourse admin panel, go to **Users > User Fields**
+2. Ensure user field 4 is configured as your custom title field
+3. The plugin will automatically display custom titles next to usernames in topic posts
+
+## How it works
+
+- **Server-side**: Extends PostSerializer to include custom title data in the initial page load
+- **Client-side**: Reads preloaded data and displays titles with custom styling
+- **Performance**: Zero AJAX requests - all data is included in the initial JSON payload
+
+## Styling
+
+The custom titles use the CSS class `.custom-user-title` and can be customized by editing `assets/stylesheets/common.scss`.

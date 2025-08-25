@@ -1,4 +1,0 @@
-discourse_custom_user_title_enabled:
-  type: bool
-  default: true
-  description: "Enable custom user title display"
